@@ -1,0 +1,75 @@
+{% extends "news/base.html" %}
+{% block content %}
+	<div style="display: flex; justify-content: center; align-items: center;">
+		<h1 style="
+			font-size: 2.5rem;
+			font-weight: bold;
+			color: #ffffff;
+			background: linear-gradient(90deg, #ff7eb3, #ff758c);
+			padding: 20px;
+			border-radius: 12px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			letter-spacing: 1px;
+			transition: transform 0.3s ease;
+			cursor: pointer;
+			text-align: center;
+			width: fit-content;
+		"
+		onmouseover="this.style.transform='translateY(-3px)'"
+		onmouseout="this.style.transform='translateY(0)'">
+			Politics News
+		</h1>
+	</div>
+	<div >
+		<br>
+		<br>
+		<br><br>
+		{% for object in object_list %}
+			<div class="card" style="width: 1000px;height:auto;border:2px black solid;margin-left: 100px;">
+			<img src = "{{ object.image }}" height="500px">
+  		<div class="card-body">
+  			<h5 class="card-title">
+    		<div class="card-body">
+      			<a href="{{object.url}}"><h5 class="card-title">{{object.title}}</h5></a>
+    		</div>
+			</h5>
+
+			<p class="service-content" style="
+				  font-size: 18px; 
+				  color: #333; 
+				  background-color: #f9f9f9; 
+				  padding: 12px; 
+				  border-left: 4px solid #4CAF50; 
+				  border-radius: 6px; 
+				  line-height: 1.6; 
+				  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">{{ object.content }}</p>
+
+              <a href="{{object.url}}"><h6>Recommended Source : {{ object.url }}</h6></a>
+		</div>
+			</div><br><br>
+  		{% endfor %}
+
+  		<div style="margin-left: 300px">
+	  		{% if is_paginated %}
+
+		      {% if page_obj.has_previous %}
+		        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+		        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+		      {% endif %}
+
+		      {% for num in page_obj.paginator.page_range %}
+		        {% if page_obj.number == num %}
+		          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+		        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+		          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+		        {% endif %}
+		      {% endfor %}
+
+		      {% if page_obj.has_next %}
+		        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+		        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+	          {% endif %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock content %}
